@@ -1,0 +1,79 @@
+[package]
+name = "pallet-cc-authorities-noting"
+authors = { workspace = true }
+description = "Author noting pallet"
+edition = "2021"
+license = "GPL-3.0-only"
+version = "0.1.0"
+
+[package.metadata.docs.rs]
+targets = [ "x86_64-unknown-linux-gnu" ]
+[dependencies]
+hex = { version = "0.4.3", default-features = false, optional = true, features = [ "alloc" ] }
+log = { version = "0.4.20" }
+parity-scale-codec = { version = "3.0.0", default-features = false, features = [ "derive", "max-encoded-len" ] }
+scale-info = { version = "2.9.0" }
+serde = { version = "1.0.188", optional = true, features = [ "derive" ] }
+
+ccp-authorities-noting-inherent = {version = "0.1.0", git = "https://github.com/moondance-labs/tanssi", rev = "c701884", default-features = false }
+tp-chain-state-snapshot = { version = "0.1.0", git = "https://github.com/moondance-labs/tanssi", rev = "c701884", default-features = false }
+tp-collator-assignment = { version = "0.1.0", git = "https://github.com/moondance-labs/tanssi", rev = "c701884", default-features = false }
+tp-core = { version = "0.1.0", git = "https://github.com/moondance-labs/tanssi", rev = "c701884", default-features = false }
+
+# Substrate
+frame-benchmarking = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false, optional = true }
+frame-support = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+frame-system = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-consensus-aura = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-core = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-inherents = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-runtime = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-state-machine = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-std = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-trie = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+
+# Cumulus
+cumulus-pallet-parachain-system = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+# use tanssi cumulus-primitives-core
+cumulus-primitives-core = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+
+# Nimbus
+nimbus-primitives = { git = "https://github.com/moondance-labs/moonkit", branch = "tanssi-polkadot-v1.1.0", default-features = false }
+
+[dev-dependencies]
+hex-literal = { version = "0.4.1" }
+polkadot-parachain-primitives = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+polkadot-primitives = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-externalities = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-io = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-state-machine = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+sp-version = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false }
+test-relay-sproof-builder = { version = "0.1.0", git = "https://github.com/moondance-labs/tanssi", rev = "c701884", default-features = false }
+
+[features]
+default = [ "std" ]
+std = [
+	"ccp-authorities-noting-inherent/std",
+	"cumulus-pallet-parachain-system/std",
+	"cumulus-primitives-core/std",
+	"frame-benchmarking/std",
+	"frame-support/std",
+	"frame-system/std",
+	"hex",
+	"parity-scale-codec/std",
+	"scale-info/std",
+	"serde",
+	"sp-consensus-aura/std",
+	"sp-state-machine/std",
+	"sp-trie/std",
+	"tp-chain-state-snapshot/std",
+	"tp-collator-assignment/std",
+	"tp-core/std",
+	"sp-std/std",
+ ]
+runtime-benchmarks = [
+	"cumulus-pallet-parachain-system/runtime-benchmarks",
+	"frame-benchmarking",
+	"hex",
+]
+try-runtime = [ "frame-support/try-runtime" ]

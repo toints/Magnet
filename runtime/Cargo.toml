@@ -24,7 +24,11 @@ smallvec = "1.11.0"
 # Local
 pallet-parachain-template = { path = "../pallets/template", default-features = false }
 pallet-motion = { path = "../pallets/motion", default-features = false }
+#Tanssi Primitives
+tp-consensus = {version = "0.1.0", path = "../pallets/consensus", default-features = false}
 
+#Tanssi container-chains
+pallet-cc-authorities-noting = {version = "0.1.0", path = "../pallets/authorities-noting", default-features = false}
 
 # Substrate
 frame-benchmarking = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false, optional = true}
@@ -54,6 +58,7 @@ sp-session = { git = "https://github.com/paritytech/polkadot-sdk", branch = "rel
 sp-std = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false}
 sp-transaction-pool = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false}
 sp-version = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false}
+sp-io = {version = "23.0.0", git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false}
 
 # Polkadot
 pallet-xcm = { git = "https://github.com/paritytech/polkadot-sdk", branch = "release-polkadot-v1.1.0", default-features = false}
@@ -94,6 +99,10 @@ fp-account = { version = "1.0.0-dev", git = "https://github.com/paritytech/front
 fp-dynamic-fee = { version = "1.0.0", git = "https://github.com/paritytech/frontier", branch = "polkadot-v1.1.0", default-features = false }
 fp-rpc = { version = "3.0.0-dev", git = "https://github.com/paritytech/frontier", branch = "polkadot-v1.1.0", default-features = false }
 fp-self-contained = { version = "1.0.0-dev", git = "https://github.com/paritytech/frontier", branch = "polkadot-v1.1.0", default-features = false, features = ["serde"] }
+
+# Moonkit (wasm)
+nimbus-primitives = { git = "https://github.com/moondance-labs/moonkit", branch = "tanssi-polkadot-v1.1.0", default-features = false }
+pallet-author-inherent = { git = "https://github.com/moondance-labs/moonkit", branch = "tanssi-polkadot-v1.1.0", default-features = false }
 
 [features]
 default = ["std", "with-rocksdb-weights"]
@@ -165,6 +174,11 @@ std = [
 	"pallet-collective/std",
 	"pallet-motion/std",
 	"fp-self-contained/std",
+	"tp-consensus/std",
+	"pallet-cc-authorities-noting/std",
+	"nimbus-primitives/std",
+	"pallet-author-inherent/std",
+	"sp-io/std",
 ]
 
 runtime-benchmarks = [

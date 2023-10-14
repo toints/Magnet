@@ -28,6 +28,8 @@ use sp_runtime::{
 	ApplyExtrinsicResult, ConsensusEngineId, MultiSignature,
 };
 
+use nimbus_primitives::NimbusId;
+
 use sp_std::{marker::PhantomData, prelude::*};
 #[cfg(feature = "std")]
 use sp_version::NativeVersion;
@@ -799,6 +801,22 @@ impl pallet_hotfix_sufficients::Config for Runtime {
 	type WeightInfo = pallet_hotfix_sufficients::weights::SubstrateWeight<Self>;
 }
 
+impl pallet_cc_authorities_noting::Config for Runtime {
+	type RuntimeEvent = RuntimeEvent;
+	type SelfParaId = parachain_info::Pallet<Runtime>;
+	type RelayChainStateProvider = cumulus_pallet_parachain_system::RelaychainDataProvider<Self>;
+	type AuthorityId = NimbusId;
+	type WeightInfo = pallet_cc_authorities_noting::weights::SubstrateWeight<Runtime>;
+}
+
+impl pallet_author_inherent::Config for Runtime {
+	type AuthorId = NimbusId;
+	type AccountLookup = tp_consensus::NimbusLookUp;
+	type CanAuthor = pallet_cc_authorities_noting::CanAuthor<Runtime>;
+	type SlotBeacon = tp_consensus::AuraDigestSlotBeacon<Runtime>;
+	type WeightInfo = pallet_author_inherent::weights::SubstrateWeight<Runtime>;
+}
+
 // Create the runtime by composing the FRAME pallets that were previously configured.
 construct_runtime!(
 	pub enum Runtime
@@ -839,8 +857,12 @@ construct_runtime!(
 		DynamicFee: pallet_dynamic_fee = 44,
 		HotfixSufficients: pallet_hotfix_sufficients = 45,
 
+		// ContainerChain
+		AuthoritiesNoting: pallet_cc_authorities_noting = 50,
+		AuthorInherent: pallet_author_inherent = 51,
+
 		// Template
-		TemplatePallet: pallet_parachain_template = 50,
+		TemplatePallet: pallet_parachain_template = 100,
 	}
 );
 
