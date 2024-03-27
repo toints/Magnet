@@ -3,7 +3,7 @@ pub(crate) use crate::Event as LiquidationEvent;
 use codec::Encode;
 use frame_support::traits::{Everything, Nothing};
 use frame_support::{
-	parameter_types,
+	derive_impl, parameter_types,
 	traits::{ConstU32, ConstU64},
 	weights::{
 		constants::ExtrinsicBaseWeight, Weight, WeightToFeeCoefficient, WeightToFeeCoefficients,
@@ -80,6 +80,7 @@ parameter_types! {
 	pub const OperationAccountName: &'static str = "maintenance";
 }
 
+#[derive_impl(frame_system::config_preludes::ParaChainDefaultConfig as frame_system::DefaultConfig)]
 impl system::Config for Test {
 	type BaseCallFilter = frame_support::traits::Everything;
 	type BlockWeights = ();
@@ -122,7 +123,7 @@ impl pallet_balances::Config for Test {
 	type ReserveIdentifier = [u8; 8];
 	type RuntimeHoldReason = ();
 	type FreezeIdentifier = ();
-	type MaxHolds = ();
+	type RuntimeFreezeReason = ();
 	type MaxFreezes = ();
 }
 

@@ -70,7 +70,6 @@ type ParachainClient = TFullClient<Block, RuntimeApi, ParachainExecutor>;
 
 type ParachainBackend = TFullBackend<Block>;
 
-//type ParachainBlockImport = TParachainBlockImport<Block, Arc<ParachainClient>, ParachainBackend>;
 type ParachainBlockImport = TParachainBlockImport<Block, FrontierBlockImport, ParachainBackend>;
 
 type FrontierBlockImport = TFrontierBlockImport<Block, Arc<ParachainClient>, ParachainClient>;
@@ -252,7 +251,6 @@ async fn start_node_impl(
 	.await
 	.map_err(|e| sc_service::Error::Application(Box::new(e) as Box<_>))?;
 
-	//let force_authoring = parachain_config.force_authoring;
 	let validator = parachain_config.role.is_authority();
 	let prometheus_registry = parachain_config.prometheus_registry().cloned();
 	let transaction_pool = params.transaction_pool.clone();
@@ -407,10 +405,14 @@ async fn start_node_impl(
 		// Here you can check whether the hardware meets your chains' requirements. Putting a link
 		// in there and swapping out the requirements for your own are probably a good idea. The
 		// requirements for a para-chain are dictated by its relay-chain.
-		if !SUBSTRATE_REFERENCE_HARDWARE.check_hardware(&hwbench) && validator {
-			log::warn!(
-				"⚠️  The hardware does not meet the minimal requirements for role 'Authority'."
+		match SUBSTRATE_REFERENCE_HARDWARE.check_hardware(&hwbench) {
+			Err(err) if validator => {
+				log::warn!(
+				"⚠️  The hardware does not meet the minimal requirements {} for role 'Authority'.",
+				err
 			);
+			},
+			_ => {},
 		}
 
 		if let Some(ref mut telemetry) = telemetry {
@@ -617,6 +619,7 @@ fn start_consensus(
 		collator_service,
 		// Very limited proposal time.
 		authoring_duration: Duration::from_millis(500),
+		collation_request_receiver: None,
 	};
 
 	let fut = on_demand_aura::run::<
