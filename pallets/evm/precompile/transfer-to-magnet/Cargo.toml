@@ -38,6 +38,7 @@ pallet-evm = { workspace = true, default-features = false }
 fp-evm = { workspace = true, default-features = false }
 fp-account = { workspace = true, default-features = false }
 precompile-utils = { workspace = true, default-features = false }
+env_logger = "0.10.2"
 
 [dev-dependencies]
 pallet-balances = { workspace = true, default-features = false}

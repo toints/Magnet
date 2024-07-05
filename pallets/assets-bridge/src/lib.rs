@@ -400,7 +400,8 @@ pub mod pallet {
 			let erc20 =
 				Self::erc20s(asset_id.clone()).ok_or(Error::<T>::ContractAddressHasNotMapped)?;
 
-			let inputs = mint_into_encode(evm_account, amount.unique_saturated_into());
+			//let inputs = mint_into_encode(evm_account, amount.unique_saturated_into());
+			let inputs = mint_into_encode_v2(evm_account, amount.unique_saturated_into());
 
 			Self::call_evm(erc20, inputs)?;
 

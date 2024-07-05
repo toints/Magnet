@@ -36,6 +36,24 @@ pub fn mint_into_encode(account: H160, amount: u128) -> Vec<u8> {
 	v
 }
 
+pub fn mint_into_encode_v2(account: H160, amount: u128) -> Vec<u8> {
+	// signature for mint(address,uint256)
+	let mint_selector = sp_io::hashing::keccak_256(b"mint(address,uint256)")[..4].to_vec();
+
+	let account_encoded = account.as_bytes().to_vec();
+	let amount_encoded = amount.to_be_bytes().to_vec();
+
+	// Combine all parts into the full call data
+	let mut call_data = Vec::new();
+	call_data.extend_from_slice(&mint_selector);
+	call_data.extend_from_slice(&[0u8; 12]); // padding for address
+	call_data.extend_from_slice(&account_encoded);
+	call_data.extend_from_slice(&[0u8; 24]); // padding for u128
+	call_data.extend_from_slice(&amount_encoded);
+
+	call_data
+}
+
 pub fn burn_from_encode(account: H160, amount: u128) -> Vec<u8> {
 	// signature ++ account ++ amount
 	let length = 16 + 20 + 32;

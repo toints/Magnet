@@ -8963,6 +8963,7 @@ dependencies = [
 name = "pallet-precompile-transfer-to-magnet"
 version = "0.1.0"
 dependencies = [
+ "env_logger",
  "fp-account",
  "fp-evm",
  "frame-support",
