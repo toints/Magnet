@@ -40,6 +40,7 @@ use std::str::FromStr;
 use xcm::latest::prelude::BodyId;
 
 //use frame_system::pallet_prelude::*;
+use env_logger;
 
 use crate as pallet_precompile_transfer_to_magnet;
 
@@ -309,7 +310,7 @@ impl ExtBuilder {
 		EXISTENTIAL_DEPOSIT.with(|v| *v.borrow_mut() = self.existential_deposit);
 	}
 	pub fn build(self) -> sp_io::TestExternalities {
-		//let _ = env_logger::builder().is_test(true).try_init();
+		let _ = env_logger::builder().is_test(true).try_init();
 		self.set_associated_consts();
 		let mut t = frame_system::GenesisConfig::<Test>::default().build_storage().unwrap();
 		pallet_balances::GenesisConfig::<Test> { balances: vec![] }
